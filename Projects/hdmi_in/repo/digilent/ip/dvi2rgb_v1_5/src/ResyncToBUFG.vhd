@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
 --
--- File: rgb2vga.vhd
+-- File: ResyncToBUFG.vhd
 -- Author: Elod Gyorgy
--- Original Project: Genesys 2 demo project
--- Date: 20 March 2015
+-- Original Project: HDMI input on 7-series Xilinx FPGA
+-- Date: 7 July 2015
 --
 -------------------------------------------------------------------------------
 -- (c) 2015 Copyright Digilent Incorporated
@@ -38,9 +38,12 @@
 -------------------------------------------------------------------------------
 --
 -- Purpose:
--- To provide a properly blanked vga signal from an rgb interface
+-- This module inserts a BUFG on the PixelClk path so that the pixel bus can be
+-- routed globally on the device. It also synchronizes data to the new BUFG
+-- clock. 
 --  
 -------------------------------------------------------------------------------
+
 
 
 library IEEE;
@@ -52,54 +55,48 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+library UNISIM;
+use UNISIM.VComponents.all;
 
-entity rgb2vga is
-   Generic (
-      VID_IN_DATA_WIDTH : natural := 24;
-      kRedDepth : natural := 5;
-      kGreenDepth : natural := 6;
-      kBlueDepth : natural := 5
-   );
+entity ResyncToBUFG is
    Port (
-      rgb_pData : in std_logic_vector(VID_IN_DATA_WIDTH-1 downto 0);
-      rgb_pVDE : in std_logic;
-      rgb_pHSync : in std_logic;
-      rgb_pVSync : in std_logic;
-      
-      PixelClk : in std_logic; --pixel clock
-      
-      vga_pRed : out std_logic_vector(kRedDepth-1 downto 0);
-      vga_pGreen : out std_logic_vector(kGreenDepth-1 downto 0);
-      vga_pBlue : out std_logic_vector(kBlueDepth-1 downto 0);
-      vga_pHSync : out std_logic;
-      vga_pVSync : out std_logic
+      -- Video in
+      piData : in std_logic_vector(23 downto 0);
+      piVDE : in std_logic;
+      piHSync : in std_logic;
+      piVSync : in std_logic;
+      PixelClkIn : in std_logic;
+      -- Video out
+      poData : out std_logic_vector(23 downto 0);
+      poVDE : out std_logic;
+      poHSync : out std_logic;
+      poVSync : out std_logic;
+      PixelClkOut : out std_logic
    );
-end rgb2vga;
+end ResyncToBUFG;
 
-architecture Behavioral of rgb2vga is
-signal int_pData : std_logic_vector(VID_IN_DATA_WIDTH-1 downto 0);
+architecture Behavioral of ResyncToBUFG is
+
+signal PixelClkInt : std_logic;
 
 begin
+-- Insert BUFG on clock path
+InstBUFG: BUFG
+   port map (
+      O => PixelClkInt, -- 1-bit output: Clock output
+      I => PixelClkIn  -- 1-bit input: Clock input
+   );
+PixelClkOut <= PixelClkInt;
 
-Blanking: process(PixelClk)
+-- Try simple registering
+RegisterData: process(PixelClkInt)
 begin
-   if Rising_Edge(PixelClk) then
-      if (rgb_pVDE = '1') then
-         int_pData <= rgb_pData;
-      else
-         int_pData <= (others => '0');
-      end if;
-      
-      vga_pHSync <= rgb_pHSync;
-      vga_pVSync <= rgb_pVSync;
+   if Rising_Edge(PixelClkInt) then
+      poData <= piData;
+      poVDE <= piVDE;
+      poHSync <= piHSync;
+      poVSync <= piVSync; 
    end if;
-end process Blanking;
-
-vga_pRed <= int_pData(VID_IN_DATA_WIDTH-1 downto VID_IN_DATA_WIDTH - kRedDepth);
-vga_pBlue <= int_pData(VID_IN_DATA_WIDTH/3*2-1 downto VID_IN_DATA_WIDTH/3*2 - kBlueDepth);
-vga_pGreen <= int_pData(VID_IN_DATA_WIDTH/3-1 downto VID_IN_DATA_WIDTH/3 - kGreenDepth); 
-
+end process RegisterData;
 
 end Behavioral;

@@ -69,7 +69,6 @@ entity TMDS_Clocking is
       aRst : in std_logic; --asynchronous reset; must be reset when RefClk is not within spec
       SerialClk : out std_logic;
       PixelClk : out std_logic;
-      PixelClkAsync : out std_logic;
       aLocked : out std_logic);
 end TMDS_Clocking;
 
@@ -80,13 +79,12 @@ signal rDlyRstCnt : natural range 0 to kDlyRstDelay - 1 := kDlyRstDelay - 1;
 
 signal clkfbout_hdmi_clk, CLK_IN_hdmi_clk, CLK_OUT_1x_hdmi_clk, CLK_OUT_5x_hdmi_clk : std_logic;
 signal clkout1b_unused, clkout2_unused, clkout2b_unused, clkout3_unused, clkout3b_unused, clkout4_unused, clkout5_unused, clkout6_unused,
-drdy_unused, psdone_unused, clkfbstopped_unused, clkinstopped_unused, clkfboutb_unused, clkout0b_unused : std_logic;
+drdy_unused, psdone_unused, clkfbstopped_unused, clkinstopped_unused, clkfboutb_unused, clkout0b_unused, clkout1_unused : std_logic;
 signal do_unused : std_logic_vector(15 downto 0);
 signal LOCKED_int, rRdyRst : std_logic;
 signal aMMCM_Locked, rMMCM_Locked_ms, rMMCM_Locked, rMMCM_LckdFallingFlag, rMMCM_LckdRisingFlag : std_logic;
 signal rMMCM_Reset_q : std_logic_vector(1 downto 0);
 signal rMMCM_Locked_q : std_logic_vector(1 downto 0);
-signal clkout1 : std_logic;
 
 begin
 
@@ -185,11 +183,8 @@ DVI_ClkGenerator: MMCME2_ADV
       CLKOUT0_DIVIDE_F     => real(kClkRange) * 1.0,
       CLKOUT0_PHASE        => 0.000,
       CLKOUT0_DUTY_CYCLE   => 0.500,
-      CLKOUT1_DIVIDE       => kClkRange * 5,
-      CLKOUT1_PHASE        => 0.000,
-      CLKOUT1_DUTY_CYCLE   => 0.500,
       CLKOUT0_USE_FINE_PS  => FALSE,
-      CLKIN1_PERIOD        => 12.500,
+      CLKIN1_PERIOD        => real(kClkRange) * 6.0,
       REF_JITTER1          => 0.010)
    port map
    -- Output clocks
@@ -198,7 +193,7 @@ DVI_ClkGenerator: MMCME2_ADV
       CLKFBOUTB           => clkfboutb_unused,
       CLKOUT0             => CLK_OUT_5x_hdmi_clk,
       CLKOUT0B            => clkout0b_unused,
-      CLKOUT1             => clkout1,
+      CLKOUT1             => clkout1_unused,
       CLKOUT1B            => clkout1b_unused,
       CLKOUT2             => clkout2_unused,
       CLKOUT2B            => clkout2b_unused,
@@ -233,12 +228,6 @@ DVI_ClkGenerator: MMCME2_ADV
       PWRDWN              => '0',
       RST                 => rMMCM_Reset_q(0));
 
--- 1x slow clock async to RGB data, but on the BUFG network  
-BUFG_inst : BUFG
-port map (
-O => PixelClkAsync, -- 1-bit output: Clock output
-I => clkout1 -- 1-bit input: Clock input
-);
 -- 5x fast serial clock
 SerialClkBuffer: BUFIO
    port map (

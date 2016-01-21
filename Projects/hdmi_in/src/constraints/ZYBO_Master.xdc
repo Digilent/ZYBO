@@ -114,7 +114,7 @@ set_property IOSTANDARD TMDS_33 [get_ports TMDS_clk_n]
 #IO_L13P_T2_MRCC_35
 set_property PACKAGE_PIN H16 [get_ports TMDS_clk_p]
 set_property IOSTANDARD TMDS_33 [get_ports TMDS_clk_p]
-create_clock -period 12.500 -name tmds_clk_pin -waveform {0.000 6.250} -add [get_ports TMDS_clk_p]
+create_clock -period 10.230 -name tmds_clk_pin -waveform {0.000 5.115} -add [get_ports TMDS_clk_p]
 
 #IO_L4N_T0_35
 set_property IOSTANDARD TMDS_33 [get_ports {TMDS_data_n[0]}]

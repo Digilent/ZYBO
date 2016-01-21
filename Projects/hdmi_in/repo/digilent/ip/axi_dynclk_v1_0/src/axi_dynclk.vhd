@@ -139,6 +139,8 @@ architecture arch_imp of axi_dynclk is
 	signal mmcm_fbclk_in             : std_logic;
 	signal mmcm_fbclk_out            : std_logic;
 	signal mmcm_clk					 : std_logic;
+	
+	signal bufmr_out                 : std_logic;
 begin
 
 -- Instantiation of Axi Bus Interface S00_AXI
@@ -184,8 +186,15 @@ axi_dynclk_S00_AXI_inst : axi_dynclk_S00_AXI
 	BUFIO_inst : BUFIO
 	port map (
 		O => PXL_CLK_5X_O, -- 1-bit output: Clock output (connect to I/O clock loads).
-		I => mmcm_clk  -- 1-bit input: Clock input (connect to an IBUF or BUFMR).
+		I => bufmr_out  -- 1-bit input: Clock input (connect to an IBUF or BUFMR).
 	);
+	
+	BUFMR_inst : BUFMR
+       port map (
+          O => bufmr_out, -- 1-bit output: Clock output (connect to BUFIOs/BUFRs)
+          I => mmcm_clk  -- 1-bit input: Clock input (Connect to IBUF)
+       );
+       
 	BUFR_inst : BUFR
 	generic map (
 		BUFR_DIVIDE => "5",   -- Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
@@ -195,7 +204,7 @@ axi_dynclk_S00_AXI_inst : axi_dynclk_S00_AXI
 		O => pxl_clk,     -- 1-bit output: Clock output port
 		CE => '1',   -- 1-bit input: Active high, clock enable (Divided modes only)
 		CLR => locked_n, -- 1-bit input: Active high, asynchronous clear (Divided modes only)		
-		I => mmcm_clk      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+		I => bufmr_out      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
 	);
    
 	locked_n <= not(locked);

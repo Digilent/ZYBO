@@ -3,10 +3,10 @@
 -- File: dvi2rgb.vhd
 -- Author: Elod Gyorgy
 -- Original Project: HDMI input on 7-series Xilinx FPGA
--- Date: 8 October 2014
+-- Date: 24 July 2015
 --
 -------------------------------------------------------------------------------
--- (c) 2014 Copyright Digilent Incorporated
+-- (c) 2015 Copyright Digilent Incorporated
 -- All Rights Reserved
 -- 
 -- This program is free software; distributed under the terms of BSD 3-clause 
@@ -65,7 +65,9 @@ entity dvi2rgb is
    Generic (
       kEmulateDDC : boolean := true; --will emulate a DDC EEPROM with basic EDID, if set to yes 
       kRstActiveHigh : boolean := true; --true, if active-high; false, if active-low
-      kClkRange : natural := 1;  -- MULT_F = kClkRange*5 (choose >=120MHz=1, >=60MHz=2, >=40MHz=3)
+      kAddBUFG : boolean := true; --true, if PixelClk should be re-buffered with BUFG 
+      kClkRange : natural := 2;  -- MULT_F = kClkRange*5 (choose >=120MHz=1, >=60MHz=2, >=40MHz=3)
+      kEdidFileName : string := "900p_edid.txt";  -- Select EDID file to use
       -- 7-series specific
       kIDLY_TapValuePs : natural := 78; --delay in ps per tap
       kIDLY_TapWidth : natural := 5); --number of bits for IDELAYE2 tap counter   
@@ -88,8 +90,7 @@ entity dvi2rgb is
       vid_pVSync : out std_logic;
       
       PixelClk : out std_logic; --pixel-clock recovered from the DVI interface
-      PixelClkAsync : out std_logic; --BUFG clock same frequency as but async to pixel-clock
- 
+      
       SerialClk : out std_logic; -- advanced use only; 5x PixelClk
       aPixelClkLckd : out std_logic; -- advanced use only; PixelClk and SerialClk stable
       
@@ -116,6 +117,9 @@ signal pEyeSize : eyeSize_t;
 
 signal aRst_int, pRst_int : std_logic;
 
+signal pData : std_logic_vector(23 downto 0);
+signal pVDE, pHSync, pVSync : std_logic;
+
 begin
 
 ResetActiveLow: if not kRstActiveHigh generate
@@ -140,8 +144,6 @@ TMDS_ClockingX: entity work.TMDS_Clocking
 
       aLocked    => aLocked,  
       PixelClk   => PixelClk_int, -- slow parallel clock
-	  
-      PixelClkAsync  => PixelClkAsync,
       SerialClk  => SerialClk_int -- fast serial clock
    );
    
@@ -191,18 +193,47 @@ end generate DataDecoders;
 -- RGB Output conform DVI 1.0
 -- except that it sends blank pixel during blanking
 -- for some reason video_data uses RBG packing
-vid_pData(23 downto 16) <= pDataIn(2); -- red is channel 2
-vid_pData(7 downto 0) <= pDataIn(1); -- green is channel 1
-vid_pData(15 downto 8) <= pDataIn(0); -- blue is channel 0
-vid_pHSync <= pC0(0); -- channel 0 carries control signals too
-vid_pVSync <= pC1(0); -- channel 0 carries control signals too
-vid_pVDE <= pDE(0); -- since channels are aligned, all of them are either active or blanking at once
+pData(23 downto 16) <= pDataIn(2); -- red is channel 2
+pData(7 downto 0) <= pDataIn(1); -- green is channel 1
+pData(15 downto 8) <= pDataIn(0); -- blue is channel 0
+pHSync <= pC0(0); -- channel 0 carries control signals too
+pVSync <= pC1(0); -- channel 0 carries control signals too
+pVDE <= pDE(0); -- since channels are aligned, all of them are either active or blanking at once
 
 -- Clock outputs
-PixelClk <= PixelClk_int; -- pixel clock sourced from DVI link
 SerialClk <= SerialClk_int; -- fast 5x pixel clock for advanced use only
 aPixelClkLckd <= aLocked;
+----------------------------------------------------------------------------------
+-- Re-buffer PixelClk with a BUFG so that it can reach the whole device, unlike
+-- through a BUFR. Since BUFG introduces a delay on the clock path, pixel data is
+-- re-registered here.
+----------------------------------------------------------------------------------
+GenerateBUFG: if kAddBUFG generate
+   ResyncToBUFG_X: entity work.ResyncToBUFG
+      port map (
+         -- Video in
+         piData => pData,
+         piVDE => pVDE,
+         piHSync => pHSync,
+         piVSync => pVSync,
+         PixelClkIn => PixelClk_int,
+         -- Video out
+         poData => vid_pData,
+         poVDE => vid_pVDE,
+         poHSync => vid_pHSync,
+         poVSync => vid_pVSync,
+         PixelClkOut => PixelClk
+      );
+end generate GenerateBUFG;
 
+DontGenerateBUFG: if not kAddBUFG generate
+   vid_pData <= pData;
+   vid_pVDE <= pVDE;
+   vid_pHSync <= pHSync;
+   vid_pVSync <= pVSync;
+   PixelClk <= PixelClk_int;
+end generate DontGenerateBUFG;
+                 
 ----------------------------------------------------------------------------------
 -- Optional DDC EEPROM Display Data Channel - Bi-directional (DDC2B)
 -- The EDID will be loaded from the file specified below in kInitFileName.
@@ -214,7 +245,7 @@ GenerateDDC: if kEmulateDDC generate
          kSlaveAddress => "1010000",
          kAddrBits => 7, -- 128 byte EDID 1.x data
          kWritable => false,
-         kInitFileName => "dgl_dvi_edid.txt") -- name of file containing init values
+         kInitFileName => kEdidFileName) -- name of file containing init values
       port map(
          SampleClk => RefClk,
          sRst => '0',
