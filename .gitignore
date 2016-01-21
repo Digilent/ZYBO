@@ -1,0 +1,110 @@
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+*.jou
+*.log
+*.str
+*.xpr
+*.Xil
+*.cache
+*.data
+*.runs
+*.hw
+*.zip
+*.html
+*.bit
+*.elf
+*.bin
+*config_settings
+*example_designs
+*.debug
+*~
+
+#Digilent Added ignore rules for Vivado projects
+
+# sdk exclusions
+Projects/*/sdk/.metadata
+Projects/*/sdk/**/*RemoteSystemsTempFiles
+Projects/*/sdk/**/*Debug
+Projects/*/sdk/**/*Release
+Projects/*/sdk/**/*webtalk
+
+# ignore everything in the hw_platform
+Projects/*/sdk/*hw_platform*/*
+# except
+!Projects/*/sdk/*hw_platform*/*.hdf
+!Projects/*/sdk/*hw_platform*/.*project
+
+# ignore everything in the BSP
+Projects/*/sdk/*_bsp*/*
+# except
+!Projects/*/sdk/*_bsp*/system.mss
+!Projects/*/sdk/*_bsp*/Makefile
+!Projects/*/sdk/*_bsp*/.*project
+
+# Make sure we keep only xci files in repo ip src subfolder
+Projects/*/repo/*/ip/*/src/*/*
+# Ignore 'generated_ip' directory inside repo/ip
+Projects/*/repo/*/ip/*/generated_ip
+!Projects/*/repo/*/ip/*/src/*/
+!Projects/*/repo/*/ip/*/src/*/*.xci
+!Projects/*/repo/*/ip/*/src/*/*.patch
+!Projects/*/repo/*/ip/*/src/*/*.tcl
+
+# Make sure we keep only xci files in ip src subfolder
+Projects/*/src/ip/*
+!Projects/*/src/ip/*/
+!Projects/*/src/ip/*/*.xci
+!Projects/*/src/ip/*/*.prj
+
+# Do not ignore anything in src/others
+!Projects/*/src/others/*
+
+# ignore everything in project folder
+Projects/*/proj/*
+# except this file and project generators
+!Projects/*/proj/create_project.tcl
+!Projects/*/proj/cleanup.cmd
+!Projects/*/proj/cleanup.sh
+
