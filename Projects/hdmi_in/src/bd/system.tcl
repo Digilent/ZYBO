@@ -10,7 +10,7 @@
 ################################################################
 # Check if script is running in correct Vivado version.
 ################################################################
-set scripts_vivado_version 2015.3
+set scripts_vivado_version 2015.4
 set current_vivado_version [version -short]
 
 if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
@@ -540,59 +540,59 @@ preplace portBus vga_r -pg 1 -y 1040 -defaultsOSRD
 preplace portBus vga_g -pg 1 -y 1060 -defaultsOSRD
 preplace portBus HDMI_OEN -pg 1 -y 1160 -defaultsOSRD
 preplace inst v_axi4s_vid_out_0 -pg 1 -lvl 6 -y 310 -defaultsOSRD
-preplace inst v_tc_0 -pg 1 -lvl 5 -y 330 -defaultsOSRD
 preplace inst axi_vdma_0 -pg 1 -lvl 5 -y 720 -defaultsOSRD
+preplace inst v_tc_0 -pg 1 -lvl 5 -y 330 -defaultsOSRD
 preplace inst xlconstant_0 -pg 1 -lvl 7 -y 1210 -defaultsOSRD
 preplace inst v_tc_1 -pg 1 -lvl 3 -y 1010 -defaultsOSRD
 preplace inst rst_processing_system7_0_100M -pg 1 -lvl 1 -y 140 -defaultsOSRD
 preplace inst axi_gpio_sw -pg 1 -lvl 7 -y 80 -defaultsOSRD
 preplace inst axi_gpio_btn -pg 1 -lvl 7 -y 320 -defaultsOSRD
+preplace inst axi_gpio_led -pg 1 -lvl 7 -y 200 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 6 -y 960 -defaultsOSRD
 preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -y 1120 -defaultsOSRD
-preplace inst axi_gpio_led -pg 1 -lvl 7 -y 200 -defaultsOSRD
 preplace inst axi_gpio_video -pg 1 -lvl 7 -y 1350 -defaultsOSRD
 preplace inst axi_dynclk_0 -pg 1 -lvl 4 -y 360 -defaultsOSRD
 preplace inst v_vid_in_axi4s_0 -pg 1 -lvl 2 -y 860 -defaultsOSRD
-preplace inst dvi2rgb_0 -pg 1 -lvl 1 -y 1320 -defaultsOSRD
 preplace inst axi_mem_intercon -pg 1 -lvl 6 -y 670 -defaultsOSRD
+preplace inst dvi2rgb_0 -pg 1 -lvl 1 -y 1320 -defaultsOSRD
+preplace inst processing_system7_0_axi_periph -pg 1 -lvl 2 -y 250 -defaultsOSRD
 preplace inst rst_processing_system7_0_150M -pg 1 -lvl 5 -y 1010 -defaultsOSRD
 preplace inst rgb2vga_0 -pg 1 -lvl 7 -y 1080 -defaultsOSRD
-preplace inst processing_system7_0_axi_periph -pg 1 -lvl 2 -y 250 -defaultsOSRD
 preplace inst processing_system7_0 -pg 1 -lvl 7 -y 690 -defaultsOSRD
 preplace netloc processing_system7_0_DDR 1 7 1 3060
 preplace netloc rgb2vga_0_vga_pRed 1 7 1 N
 preplace netloc v_vid_in_axi4s_0_video_out 1 2 3 NJ 670 NJ 670 NJ
 preplace netloc axi_vdma_0_s2mm_introut 1 5 1 2010
 preplace netloc axi_gpio_video_ip2intc_irpt 1 5 3 2090 1050 NJ 990 3040
-preplace netloc axi_dynclk_0_PXL_CLK_O 1 4 3 1610 200 2030 200 2510
+preplace netloc axi_dynclk_0_PXL_CLK_O 1 4 3 1630 200 2030 200 2510
 preplace netloc processing_system7_0_axi_periph_M03_AXI 1 2 3 NJ 240 NJ 240 NJ
 preplace netloc processing_system7_0_axi_periph_M00_AXI 1 2 5 1020 150 NJ 150 NJ 150 NJ 150 NJ
 preplace netloc rgb2vga_0_vga_pGreen 1 7 1 N
+preplace netloc TMDS_1 1 0 1 0
 preplace netloc v_axi4s_vid_out_0_vid_io_out 1 6 1 2500
 preplace netloc processing_system7_0_axi_periph_M07_AXI 1 2 5 1050 190 NJ 190 NJ 190 NJ 190 NJ
 preplace netloc processing_system7_0_M_AXI_GP0 1 1 7 700 510 NJ 510 NJ 510 NJ 510 NJ 510 NJ 510 3040
 preplace netloc axi_vdma_0_M_AXI_MM2S 1 5 1 2060
-preplace netloc TMDS_1 1 0 1 0
 preplace netloc rst_processing_system7_0_150M_peripheral_aresetn 1 5 1 2080
 preplace netloc processing_system7_0_axi_periph_M05_AXI 1 2 3 N 280 NJ 280 NJ
 preplace netloc axi_vdma_0_M_AXIS_MM2S 1 5 1 2020
 preplace netloc v_tc_0_irq 1 5 1 2030
 preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 8 NJ 740 NJ 740 NJ 740 NJ 740 NJ 870 NJ 870 NJ 870 3030
+preplace netloc axi_gpio_led_GPIO 1 7 1 N
 preplace netloc processing_system7_0_IIC_0 1 7 1 3050
 preplace netloc axi_mem_intercon_M00_AXI 1 6 1 N
-preplace netloc axi_gpio_led_GPIO 1 7 1 N
 preplace netloc processing_system7_0_axi_periph_M02_AXI 1 2 5 1030 60 NJ 60 NJ 60 NJ 60 NJ
-preplace netloc v_tc_1_irq 1 3 3 1320 920 NJ 920 NJ
+preplace netloc v_tc_1_irq 1 3 3 1330 920 NJ 920 NJ
 preplace netloc rst_processing_system7_0_150M_interconnect_aresetn 1 5 1 2070
-preplace netloc rst_processing_system7_0_100M_peripheral_aresetn 1 0 7 10 530 690 530 1090 440 1330 440 NJ 840 NJ 840 2550
-preplace netloc processing_system7_0_axi_periph_M06_AXI 1 2 1 1060
-preplace netloc dvi2rgb_0_DDC 1 1 7 690 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ
+preplace netloc rst_processing_system7_0_100M_peripheral_aresetn 1 0 7 10 530 690 530 1090 440 1340 440 NJ 840 NJ 840 2550
 preplace netloc axi_gpio_0_GPIO1 1 7 1 N
+preplace netloc dvi2rgb_0_DDC 1 1 7 690 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ 1260 NJ
+preplace netloc processing_system7_0_axi_periph_M06_AXI 1 2 1 1060
 preplace netloc xlconstant_0_dout 1 7 1 3050
 preplace netloc xlconcat_0_dout 1 6 1 2530
 preplace netloc dvi2rgb_0_aPixelClkLckd 1 1 7 NJ 1350 N 1350 NJ 1350 NJ 1350 NJ 1350 NJ 1430 3030
-preplace netloc processing_system7_0_FIXED_IO 1 7 1 3060
 preplace netloc axi_gpio_0_GPIO2 1 7 1 3060
+preplace netloc processing_system7_0_FIXED_IO 1 7 1 3060
 preplace netloc rgb2vga_0_vga_pVSync 1 7 1 N
 preplace netloc rgb2vga_0_vga_pHSync 1 7 1 N
 preplace netloc axi_vdma_0_mm2s_introut 1 5 1 2020
@@ -600,18 +600,18 @@ preplace netloc axi_gpio_0_GPIO 1 7 1 N
 preplace netloc proc_sys_reset_0_peripheral_reset 1 1 2 700 990 1030
 preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 1 1100
 preplace netloc rst_processing_system7_0_100M_interconnect_aresetn 1 1 1 660
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 8 30 50 670 520 1080 370 1320 270 NJ 180 NJ 180 2540 880 3060
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 8 30 50 670 520 1080 370 1330 270 NJ 180 NJ 180 2540 880 3060
 preplace netloc v_vid_in_axi4s_0_vtiming_out 1 2 1 1030
 preplace netloc v_tc_0_vtiming_out 1 5 1 2000
 preplace netloc axi_vdma_0_M_AXI_S2MM 1 5 1 2040
 preplace netloc processing_system7_0_FCLK_CLK1 1 1 7 690 720 NJ 720 NJ 720 NJ 600 2050 520 2570 520 3030
-preplace netloc processing_system7_0_axi_periph_M04_AXI 1 2 2 NJ 260 1330
+preplace netloc processing_system7_0_axi_periph_M04_AXI 1 2 2 NJ 260 1340
 preplace netloc processing_system7_0_axi_periph_M01_AXI 1 2 5 NJ 160 NJ 160 NJ 160 NJ 160 2560
 preplace netloc dvi2rgb_0_RGB 1 1 1 660
 preplace netloc rgb2vga_0_vga_pBlue 1 7 1 N
 preplace netloc processing_system7_0_FCLK_CLK2 1 0 8 NJ 730 NJ 730 NJ 730 NJ 730 NJ 850 NJ 850 NJ 860 3040
 preplace netloc dvi2rgb_0_PixelClk 1 1 2 680 980 1100
-levelinfo -pg 1 -20 500 860 1210 1450 1840 2340 2817 3080 -top 0 -bot 1440
+levelinfo -pg 1 -20 500 860 1220 1470 1840 2340 2817 3080 -top 0 -bot 1440
 ",
 }
 
