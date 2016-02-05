@@ -13,7 +13,7 @@ entity axi_dynclk is
 
 		-- User parameters ends
 		-- Do not modify the parameters beyond this line
-
+        ADD_BUFMR : boolean := false; --true, if BUFMR should be added between MMCM and BUFIO  
 
 		-- Parameters of Axi Slave Bus Interface S00_AXI
 		C_S00_AXI_DATA_WIDTH	: integer	:= 32;
@@ -140,7 +140,7 @@ architecture arch_imp of axi_dynclk is
 	signal mmcm_fbclk_out            : std_logic;
 	signal mmcm_clk					 : std_logic;
 	
-	signal bufmr_out                 : std_logic;
+	signal bufio_in                 : std_logic;
 begin
 
 -- Instantiation of Axi Bus Interface S00_AXI
@@ -182,19 +182,25 @@ axi_dynclk_S00_AXI_inst : axi_dynclk_S00_AXI
 		S_AXI_RREADY	=> s00_axi_rready
 	);
 
+GenerateBUFMR: if ADD_BUFMR generate
+BUFMR_inst : BUFMR
+   port map (
+      O => bufio_in, -- 1-bit output: Clock output (connect to BUFIOs/BUFRs)
+      I => mmcm_clk  -- 1-bit input: Clock input (Connect to IBUF)
+   );
+end generate GenerateBUFMR;
+
+DontGenerateBUFMR: if not ADD_BUFMR generate
+    bufio_in <= mmcm_clk;
+end generate DontGenerateBUFMR;
+
 	-- Add user logic here
 	BUFIO_inst : BUFIO
 	port map (
 		O => PXL_CLK_5X_O, -- 1-bit output: Clock output (connect to I/O clock loads).
-		I => bufmr_out  -- 1-bit input: Clock input (connect to an IBUF or BUFMR).
+		I => bufio_in  -- 1-bit input: Clock input (connect to an IBUF or BUFMR).
 	);
-	
-	BUFMR_inst : BUFMR
-       port map (
-          O => bufmr_out, -- 1-bit output: Clock output (connect to BUFIOs/BUFRs)
-          I => mmcm_clk  -- 1-bit input: Clock input (Connect to IBUF)
-       );
-       
+
 	BUFR_inst : BUFR
 	generic map (
 		BUFR_DIVIDE => "5",   -- Values: "BYPASS, 1, 2, 3, 4, 5, 6, 7, 8" 
@@ -204,7 +210,7 @@ axi_dynclk_S00_AXI_inst : axi_dynclk_S00_AXI
 		O => pxl_clk,     -- 1-bit output: Clock output port
 		CE => '1',   -- 1-bit input: Active high, clock enable (Divided modes only)
 		CLR => locked_n, -- 1-bit input: Active high, asynchronous clear (Divided modes only)		
-		I => bufmr_out      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
+		I => bufio_in      -- 1-bit input: Clock buffer input driven by an IBUF, MMCM or local interconnect
 	);
    
 	locked_n <= not(locked);

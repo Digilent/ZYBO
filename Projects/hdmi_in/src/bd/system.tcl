@@ -550,8 +550,8 @@ preplace inst axi_gpio_btn -pg 1 -lvl 7 -y 320 -defaultsOSRD
 preplace inst axi_gpio_led -pg 1 -lvl 7 -y 200 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 6 -y 960 -defaultsOSRD
 preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -y 1120 -defaultsOSRD
-preplace inst axi_gpio_video -pg 1 -lvl 7 -y 1350 -defaultsOSRD
 preplace inst axi_dynclk_0 -pg 1 -lvl 4 -y 360 -defaultsOSRD
+preplace inst axi_gpio_video -pg 1 -lvl 7 -y 1350 -defaultsOSRD
 preplace inst v_vid_in_axi4s_0 -pg 1 -lvl 2 -y 860 -defaultsOSRD
 preplace inst dvi2rgb_0 -pg 1 -lvl 1 -y 1320 -defaultsOSRD
 preplace inst axi_mem_intercon -pg 1 -lvl 6 -y 670 -defaultsOSRD
