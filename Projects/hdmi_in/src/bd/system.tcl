@@ -229,7 +229,7 @@ CONFIG.c_use_s2mm_fsync {2} \
  ] $axi_vdma_0
 
   # Create instance: dvi2rgb_0, and set properties
-  set dvi2rgb_0 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:dvi2rgb:1.5 dvi2rgb_0 ]
+  set dvi2rgb_0 [ create_bd_cell -type ip -vlnv digilentinc.com:ip:dvi2rgb:1.6 dvi2rgb_0 ]
   set_property -dict [ list \
 CONFIG.kAddBUFG {false} \
 CONFIG.kClkRange {2} \
@@ -553,8 +553,8 @@ preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -y 1120 -defaultsOSRD
 preplace inst axi_gpio_video -pg 1 -lvl 7 -y 1350 -defaultsOSRD
 preplace inst axi_dynclk_0 -pg 1 -lvl 4 -y 360 -defaultsOSRD
 preplace inst v_vid_in_axi4s_0 -pg 1 -lvl 2 -y 860 -defaultsOSRD
-preplace inst axi_mem_intercon -pg 1 -lvl 6 -y 670 -defaultsOSRD
 preplace inst dvi2rgb_0 -pg 1 -lvl 1 -y 1320 -defaultsOSRD
+preplace inst axi_mem_intercon -pg 1 -lvl 6 -y 670 -defaultsOSRD
 preplace inst processing_system7_0_axi_periph -pg 1 -lvl 2 -y 250 -defaultsOSRD
 preplace inst rst_processing_system7_0_150M -pg 1 -lvl 5 -y 1010 -defaultsOSRD
 preplace inst rgb2vga_0 -pg 1 -lvl 7 -y 1080 -defaultsOSRD

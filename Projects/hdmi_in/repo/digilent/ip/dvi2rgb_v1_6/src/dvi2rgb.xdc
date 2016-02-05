@@ -1,6 +1,6 @@
 ### Clock constraints ###
 # Constrain TMDS clock to the 165 MHz maximum from DVI 1.0 specs
-# create_clock -period 6.060 [get_ports TMDS_Clk_p]
+create_clock -period 6.060 [get_ports TMDS_Clk_p]
 
 ### I/O constraints ###
 # group data channel IODELAYE2 cells with the IDELAYCTRL

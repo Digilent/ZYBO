@@ -115,6 +115,7 @@ signal pDelayWaitCnt : natural range 0 to kDelayWaitEnd - 1;
 signal pDelayWaitRst, pDelayWaitOvf : std_logic;
 
 constant kEyeOpenCntMin : natural := 3;
+constant kEyeOpenCntEnough : natural := 16;
 signal pEyeOpenCnt : unsigned(kIDLY_TapWidth-1 downto 0);
 signal pCenterTap : unsigned(kIDLY_TapWidth downto 0); -- 1 extra bit to increment with 1/2 for every open eye tap
 signal pEyeOpenRst, pEyeOpenEn : std_logic;
@@ -304,7 +305,9 @@ begin
          when JtrZoneSt =>
             pFoundJtrFlag <= '1';
          when EyeOpenSt =>
-            if (pFoundJtrFlag = '1' and pEyeOpenCnt = kEyeOpenCntMin) then
+         -- We consider the eye found, if we had found jitter before and the eye is at least kEyeOpenCntMin wide OR
+         -- We have not seen jitter yet (because tap 0 was already in the eye) and the eye is at least kEyeOpenCntEnough wide
+            if ((pFoundJtrFlag = '1' and pEyeOpenCnt = kEyeOpenCntMin) or (pEyeOpenCnt = kEyeOpenCntEnough)) then
                pFoundEyeFlag <= '1';
             end if;
          when others =>
@@ -345,7 +348,13 @@ begin
          end if;
                
       when EyeOpenSt =>
-         pStateNxt <= DlyIncSt;
+         -- If our eye is already kEyeOpenCntEnough wide, consider the search finished and consider the current tap value
+         -- the end of our eye = jitter zone
+         if (pEyeOpenCnt = kEyeOpenCntEnough) then
+            pStateNxt <= JtrZoneSt;
+         else
+            pStateNxt <= DlyIncSt;
+         end if;
       
       when DlyIncSt =>
          pStateNxt <= DlyTstOvfSt;
