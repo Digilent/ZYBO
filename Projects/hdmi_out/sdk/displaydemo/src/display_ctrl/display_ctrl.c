@@ -242,7 +242,7 @@ int DisplayStart(DisplayCtrl *dispPtr)
 	 * current mode
 	 */
 	dispPtr->vdmaConfig.VertSizeInput = dispPtr->vMode.height;
-	dispPtr->vdmaConfig.HoriSizeInput = (dispPtr->vMode.width) * 3;
+	dispPtr->vdmaConfig.HoriSizeInput = (dispPtr->vMode.width) * 4;
 	dispPtr->vdmaConfig.FixedFrameStoreAddr = dispPtr->curFrame;
 	/*
 	 *Also reset the stride and address values, in case the user manually changed them
