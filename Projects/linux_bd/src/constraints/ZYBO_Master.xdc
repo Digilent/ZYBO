@@ -4,10 +4,10 @@
 ## - rename the used signals according to the project
 
 #Clock signal
-#IO_L11P_T1_SRCC_35	
-set_property PACKAGE_PIN L16 [get_ports sysclk]
-set_property IOSTANDARD LVCMOS33 [get_ports sysclk]
-create_clock -period 8.00 -waveform {0 4} [get_ports sysclk]
+#IO_L11P_T1_SRCC_35
+set_property PACKAGE_PIN L16 [get_ports {sysclk[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {sysclk[0]}]
+create_clock -period 8.000 -waveform {0.000 4.000} [get_ports sysclk]
 
 ##Switches
 ##IO_L19N_T3_VREF_35
@@ -62,32 +62,32 @@ create_clock -period 8.00 -waveform {0 4} [get_ports sysclk]
 
 #I2S Audio Codec
 #IO_L12N_T1_MRCC_35
-set_property PACKAGE_PIN K18 [get_ports ac_bclk]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_bclk]
+set_property PACKAGE_PIN K18 [get_ports {ac_bclk[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_bclk[0]}]
 
 #IO_25_34
 set_property PACKAGE_PIN T19 [get_ports ac_mclk]
 set_property IOSTANDARD LVCMOS33 [get_ports ac_mclk]
 
 #IO_L23N_T3_34
-set_property PACKAGE_PIN P18 [get_ports ac_muten]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_muten]
+set_property PACKAGE_PIN P18 [get_ports {ac_muten[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_muten[0]}]
 
 #IO_L8P_T1_AD10P_35
-set_property PACKAGE_PIN M17 [get_ports ac_pbdat]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_pbdat]
+set_property PACKAGE_PIN M17 [get_ports {ac_pbdat[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_pbdat[0]}]
 
 #IO_L11N_T1_SRCC_35
-set_property PACKAGE_PIN L17 [get_ports ac_pblrc]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_pblrc]
+set_property PACKAGE_PIN L17 [get_ports {ac_pblrc[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_pblrc[0]}]
 
 #IO_L12P_T1_MRCC_35
-set_property PACKAGE_PIN K17 [get_ports ac_recdat]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_recdat]
+set_property PACKAGE_PIN K17 [get_ports {ac_recdat[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_recdat[0]}]
 
 #IO_L8N_T1_AD10N_35
-set_property PACKAGE_PIN M18 [get_ports ac_reclrc]
-set_property IOSTANDARD LVCMOS33 [get_ports ac_reclrc]
+set_property PACKAGE_PIN M18 [get_ports {ac_reclrc[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ac_reclrc[0]}]
 
 ##Audio Codec/external EEPROM IIC bus
 #IO_L13P_T2_MRCC_34
@@ -401,3 +401,7 @@ set_property IOSTANDARD LVCMOS33 [get_ports hdmi_ddc_sda_io]
 #set_property PACKAGE_PIN R19 [get_ports vga_vs]
 #set_property IOSTANDARD LVCMOS33 [get_ports vga_vs]
 
+
+
+set_false_path -from [get_clocks clk_out1_linux_bd_clk_wiz_0_0] -to [get_clocks clk_fpga_0]
+set_false_path -from [get_clocks clk_fpga_0] -to [get_clocks clk_out1_linux_bd_clk_wiz_0_0]
