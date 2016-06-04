@@ -156,38 +156,38 @@ set_property IOSTANDARD LVCMOS33 [get_ports hdmi_ddc_scl_io]
 set_property PACKAGE_PIN G18 [get_ports hdmi_ddc_sda_io]
 set_property IOSTANDARD LVCMOS33 [get_ports hdmi_ddc_sda_io]
 
-##Pmod Header JA (XADC)
-##IO_L21N_T3_DQS_AD14N_35
-#set_property PACKAGE_PIN N16 [get_ports {ja_n[0]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_n[0]}]
+#Pmod Header JA (XADC)
+#IO_L21N_T3_DQS_AD14N_35
+set_property PACKAGE_PIN N16 [get_ports {Vaux14_v_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux14_v_n}]
 
-##IO_L21P_T3_DQS_AD14P_35
-#set_property PACKAGE_PIN N15 [get_ports {ja_p[0]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_p[0]}]
+#IO_L21P_T3_DQS_AD14P_35
+set_property PACKAGE_PIN N15 [get_ports {Vaux14_v_p}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux14_v_p}]
 
-##IO_L22N_T3_AD7N_35
-#set_property PACKAGE_PIN L15 [get_ports {ja_n[1]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_n[1]}]
+#IO_L22N_T3_AD7N_35
+set_property PACKAGE_PIN L15 [get_ports {Vaux7_v_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux7_v_n}]
 
-##IO_L22P_T3_AD7P_35
-#set_property PACKAGE_PIN L14 [get_ports {ja_p[1]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_p[1]}]
+#IO_L22P_T3_AD7P_35
+set_property PACKAGE_PIN L14 [get_ports {Vaux7_v_p}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux7_v_p}]
 
-##IO_L24N_T3_AD15N_35
-#set_property PACKAGE_PIN J16 [get_ports {ja_n[2]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_n[2]}]
+#IO_L24N_T3_AD15N_35
+set_property PACKAGE_PIN J16 [get_ports {Vaux15_v_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux15_v_n}]
 
-##IO_L24P_T3_AD15P_35
-#set_property PACKAGE_PIN K16 [get_ports {ja_p[2]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_p[2]}]
+#IO_L24P_T3_AD15P_35
+set_property PACKAGE_PIN K16 [get_ports {Vaux15_v_p}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux15_v_p}]
 
-##IO_L20N_T3_AD6N_35
-#set_property PACKAGE_PIN J14 [get_ports {ja_n[3]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_n[3]}]
+#IO_L20N_T3_AD6N_35
+set_property PACKAGE_PIN J14 [get_ports {Vaux6_v_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux6_v_n}]
 
-##IO_L20P_T3_AD6P_35
-#set_property PACKAGE_PIN K14 [get_ports {ja_p[3]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {ja_p[3]}]
+#IO_L20P_T3_AD6P_35
+set_property PACKAGE_PIN K14 [get_ports {Vaux6_v_p}]
+set_property IOSTANDARD LVCMOS33 [get_ports {Vaux6_v_p}]
 
 ##Pmod Header JB
 ##IO_L15N_T2_DQS_34
@@ -298,12 +298,14 @@ set_property IOSTANDARD LVCMOS33 [get_ports hdmi_ddc_sda_io]
 #set_property IOSTANDARD LVCMOS33 [get_ports {je[1]}]
 
 ##IO_25_35
-#set_property PACKAGE_PIN J15 [get_ports {je[2]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {je[2]}]
+#set_property PACKAGE_PIN J15 [get_ports {iic_rtl_scl_io}]
+#set_property PULLUP true [get_ports {iic_rtl_scl_io}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {iic_rtl_scl_io}]
 
 ##IO_L19P_T3_35
-#set_property PACKAGE_PIN H15 [get_ports {je[3]}]
-#set_property IOSTANDARD LVCMOS33 [get_ports {je[3]}]
+#set_property PACKAGE_PIN H15 [get_ports {iic_rtl_sda_io}]
+#set_property PULLUP true [get_ports {iic_rtl_sda_io}]
+#set_property IOSTANDARD LVCMOS33 [get_ports {iic_rtl_sda_io}]
 
 ##IO_L3N_T0_DQS_34
 #set_property PACKAGE_PIN V13 [get_ports {je[4]}]

@@ -1,17 +1,20 @@
 # Definitional proc to organize widgets for parameters.
 proc init_gui { IPINST } {
-	set Component_Name [ipgui::add_param $IPINST -name Component_Name]
-	set Page0 [ipgui::add_page $IPINST -name "Page 0" -layout vertical]
-	set C_HAS_RX [ipgui::add_param $IPINST -parent $Page0 -name C_HAS_RX]
-	set C_HAS_TX [ipgui::add_param $IPINST -parent $Page0 -name C_HAS_TX]
-	set C_NUM_CH [ipgui::add_param $IPINST -parent $Page0 -name C_NUM_CH]
-	set C_DMA_TYPE [ipgui::add_param $IPINST -parent $Page0 -name C_DMA_TYPE]
-	set C_S_AXI_MIN_SIZE [ipgui::add_param $IPINST -parent $Page0 -name C_S_AXI_MIN_SIZE]
-	set C_S_AXI_ADDR_WIDTH [ipgui::add_param $IPINST -parent $Page0 -name C_S_AXI_ADDR_WIDTH]
-	set C_S_AXI_DATA_WIDTH [ipgui::add_param $IPINST -parent $Page0 -name C_S_AXI_DATA_WIDTH]
-	set C_BCLK_POL [ipgui::add_param $IPINST -parent $Page0 -name C_BCLK_POL]
-	set C_LRCLK_POL [ipgui::add_param $IPINST -parent $Page0 -name C_LRCLK_POL]
-	set C_SLOT_WIDTH [ipgui::add_param $IPINST -parent $Page0 -name C_SLOT_WIDTH]
+  ipgui::add_param $IPINST -name "Component_Name"
+  #Adding Page
+  set Page_0 [ipgui::add_page $IPINST -name "Page 0"]
+  ipgui::add_param $IPINST -name "C_HAS_RX" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_HAS_TX" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_NUM_CH" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_DMA_TYPE" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_S_AXI_MIN_SIZE" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_S_AXI_ADDR_WIDTH" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_S_AXI_DATA_WIDTH" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_BCLK_POL" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_LRCLK_POL" -parent ${Page_0}
+  ipgui::add_param $IPINST -name "C_SLOT_WIDTH" -parent ${Page_0}
+
+
 }
 
 proc update_PARAM_VALUE.C_HAS_RX { PARAM_VALUE.C_HAS_RX } {

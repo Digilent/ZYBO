@@ -45,7 +45,7 @@ entity axi_ctrlif is
 	(
 		C_NUM_REG			: integer			:= 32;
 		C_S_AXI_DATA_WIDTH	: integer			:= 32;
-		C_S_AXI_ADDR_WIDTH	: integer			:= 32;
+		C_S_AXI_ADDR_WIDTH	: integer			:= 6;
 		C_FAMILY		: string			:= "virtex6"
 	);
 	port
