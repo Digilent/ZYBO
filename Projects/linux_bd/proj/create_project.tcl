@@ -25,7 +25,7 @@ set src_dir $origin_dir/src
 set repo_dir $origin_dir/repo
 
 # Set the board repo
-set_param board.repoPaths $repo_dir/board_files
+set_param board.repoPaths "[file normalize "$repo_dir/board_files"]"
 
 # Create project
 create_project $proj_name $dest_dir
