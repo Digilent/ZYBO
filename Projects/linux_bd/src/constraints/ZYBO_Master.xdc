@@ -189,6 +189,11 @@ set_property IOSTANDARD LVCMOS33 [get_ports {Vaux6_v_n}]
 set_property PACKAGE_PIN K14 [get_ports {Vaux6_v_p}]
 set_property IOSTANDARD LVCMOS33 [get_ports {Vaux6_v_p}]
 
+set_property PULLUP true [get_ports {jc_pin1_io}]
+set_property PULLUP true [get_ports {jc_pin2_io}]
+set_property PULLUP true [get_ports {jd_pin1_io}]
+set_property PULLUP true [get_ports {jd_pin2_io}]
+
 ##Pmod Header JB
 ##IO_L15N_T2_DQS_34
 #set_property PACKAGE_PIN U20 [get_ports {jb_n[0]}]
