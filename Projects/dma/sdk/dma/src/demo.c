@@ -64,7 +64,7 @@
 
 // Audio constants
 // Number of seconds to record/playback
-#define NR_SEC_TO_REC_PLAY		10
+#define NR_SEC_TO_REC_PLAY		5
 
 // ADC/DAC sampling rate in Hz
 //#define AUDIO_SAMPLING_RATE		1000
