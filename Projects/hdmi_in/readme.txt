@@ -3,7 +3,7 @@
 ----------------------------
 To re-create a Vivado project:
 
-You must have Vivado 2015.3 installed and the Digilent board files (as instructed 
+You must have Vivado 2015.4 installed and the Digilent board files (as instructed 
 here: https://reference.digilentinc.com/vivado:boardfiles2015). Then do the following:
 
 0. Make sure the /proj does not already contain a project with the same name. 
