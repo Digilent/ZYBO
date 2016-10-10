@@ -12,10 +12,10 @@ attrib +R .\create_project.tcl
 attrib +R .\cleanup.sh
 attrib +R .\cleanup.cmd
 attrib +R .\.gitignore
+attrib +R .\_READ_ME_.txt
 
 rem delete all non read-only
 del /Q /A:-R .\*
 
 rem unmark read-only
 attrib -R .\*
-
