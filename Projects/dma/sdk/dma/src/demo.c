@@ -44,7 +44,7 @@
 #include "xdebug.h"
 #include "xiic.h"
 #include "xaxidma.h"
-
+#include "xtime_l.h"
 
 
 #ifdef XPAR_INTC_0_DEVICE_ID
@@ -203,6 +203,22 @@ int main(void)
 	}
 
 
+	//Initialize Audio I2S
+	Status = fnInitAudio();
+	if(Status != XST_SUCCESS) {
+		xil_printf("Audio initializing ERROR");
+		return XST_FAILURE;
+	}
+
+	{
+		XTime  tStart, tEnd;
+
+		XTime_GetTime(&tStart);
+		do {
+			XTime_GetTime(&tEnd);
+		}
+		while((tEnd-tStart)/(COUNTS_PER_SECOND/10) < 20);
+	}
 	//Initialize Audio I2S
 	Status = fnInitAudio();
 	if(Status != XST_SUCCESS) {
